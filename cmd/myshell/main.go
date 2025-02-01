@@ -21,8 +21,8 @@ func main() {
 		// Trim newline
 		userInput = userInput[:len(userInput)-1]
 
-		if userInput == "exit" {
-			break
+		if userInput == "exit 0" {
+			os.Exit(0)
 		}
 
 		if err != nil {
