@@ -11,7 +11,6 @@ var _ = fmt.Fprint
 
 func main() {
 	commands := make(map[string]string)
-	fmt.Println("To exit REPL, write exit")
 
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
