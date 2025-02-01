@@ -10,32 +10,38 @@ import (
 var _ = fmt.Fprint
 
 func main() {
-	commands := make(map[string] string)
+	commands := make(map[string]string)
+	fmt.Println("To exit REPL, write exit")
 
-	// Uncomment this block to pass the first stage
-	fmt.Fprint(os.Stdout, "$ ")
+	for {
+		fmt.Fprint(os.Stdout, "$ ")
 
-	// Wait for user input
-	userInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
-	
-	// Trim newline
-	userInput = userInput[:len(userInput) - 1]
+		// Wait for user input
+		userInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
 
-	if err != nil {
-		fmt.Println("Error reading input: " + err.Error())
-		os.Exit(1)
-	}
+		// Trim newline
+		userInput = userInput[:len(userInput)-1]
 
-	// Get Command
-	command, exists := commands[userInput]
-	if !exists {
-		command = userInput
-	}
+		if userInput == "exit" {
+			break
+		}
 
-	if exists {
-		fmt.Println(command + ": to be executed")
-	} else {
-		fmt.Println(command + ": command not found")
+		if err != nil {
+			fmt.Println("Error reading input: " + err.Error())
+			os.Exit(1)
+		}
+
+		// Get Command
+		command, exists := commands[userInput]
+		if !exists {
+			command = userInput
+		}
+
+		if exists {
+			fmt.Println(command + ": to be executed")
+		} else {
+			fmt.Println(command + ": command not found")
+		}
 	}
 
 }
