@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 // Ensures gofmt doesn't remove the "fmt" import in stage 1 (feel free to remove this!)
@@ -23,6 +24,13 @@ func main() {
 
 		if userInput == "exit 0" {
 			os.Exit(0)
+		}
+
+		isEcho := strings.HasPrefix(userInput, "echo")
+		if isEcho {
+			echoText := strings.TrimPrefix(userInput, "echo ")
+			fmt.Println(echoText)
+			continue
 		}
 
 		if err != nil {
