@@ -22,8 +22,8 @@ func main() {
 	userInput = userInput[:len(userInput) - 1]
 
 	if err != nil {
-		fmt.Println("Error: " + err.Error())
-		return
+		fmt.Println("Error reading input: " + err.Error())
+		os.Exit(1)
 	}
 
 	// Get Command
