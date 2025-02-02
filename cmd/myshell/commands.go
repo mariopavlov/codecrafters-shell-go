@@ -100,10 +100,9 @@ func SearchCommandPath(command string) (string, bool) {
 	for _, dir := range pathDirs {
 		cmdPath := dir + string(os.PathSeparator) + command
 
-		fileInfo, err := os.Stat(cmdPath)
+		_, err := os.Stat(cmdPath)
 
 		if err == nil {
-			fmt.Println("File name: " + fileInfo.Name())
 			return cmdPath, true
 		}
 	}
