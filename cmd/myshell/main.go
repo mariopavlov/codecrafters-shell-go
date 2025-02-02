@@ -27,7 +27,7 @@ func main() {
 		if exists {
 			command.Handler(userInput)
 		} else {
-			fmt.Println(command.Name + ": command not found")
+			fmt.Println(userInput[0] + ": command not found")
 		}
 	}
 
