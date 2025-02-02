@@ -34,6 +34,19 @@ func registerCommands() {
 		Usage:       "type [command]",
 		Handler:     commandType,
 	}
+	commands["pwd"] = Command{
+		Name:        "pwd",
+		Description: "pwd is a shell builtin",
+		Usage:       "pwd [command]",
+		Handler:     commandPwd,
+	}
+}
+
+func commandPwd(args []string) error {
+	pwdCommand := commands["pwd"]
+
+	ExecuteExternalCommand(pwdCommand.Name, nil)
+	return nil
 }
 
 func commandExit(args []string) error {
