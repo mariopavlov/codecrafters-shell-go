@@ -33,11 +33,17 @@ func main() {
 			fmt.Println(userInput[0] + ": command not found")
 		}
 	}
-
 }
 
 func ExecuteExternalCommand(externalCommand string, args []string) {
-	command := exec.Command(externalCommand, args...)
+	var command *exec.Cmd
+
+	if len(args) >= 1 {
+		command = exec.Command(externalCommand, args...)
+	} else {
+		command = exec.Command(externalCommand, args...)
+
+	}
 
 	var outBuffer bytes.Buffer
 	command.Stdout = &outBuffer
