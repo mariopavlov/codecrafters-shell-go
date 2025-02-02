@@ -17,10 +17,10 @@ func main() {
 		fmt.Fprint(os.Stdout, "$ ")
 
 		// Wait for user input
-		userInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+		rawInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
 
 		// Trim newline
-		userInput = userInput[:len(userInput)-1]
+		userInput := TrimNewLine(rawInput)
 
 		if userInput == "exit 0" {
 			os.Exit(0)
@@ -51,4 +51,8 @@ func main() {
 		}
 	}
 
+}
+
+func TrimNewLine(prompt string) string {
+	return strings.TrimRight(prompt, "\r\n")
 }
