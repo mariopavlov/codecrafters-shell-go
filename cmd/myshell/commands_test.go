@@ -21,6 +21,12 @@ func TestSearchCommandPath(t *testing.T) {
 			input:    "windsurf",
 			expected: "/Users/mariopavlov/.codeium/windsurf/bin/windsurf",
 		},
+		{
+			name:     "Look for cat on Path",
+			found:    true,
+			input:    "cat",
+			expected: "/bin/cat",
+		},
 	}
 
 	for _, tt := range tests {
