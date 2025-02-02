@@ -45,7 +45,13 @@ func registerCommands() {
 func commandPwd(args []string) error {
 	pwdCommand := commands["pwd"]
 
-	ExecuteExternalCommand(pwdCommand.Name, nil)
+	// CodeMasters expect to get the full path to PWD for some reason
+	path, exists := SearchCommandPath(pwdCommand.Name)
+
+	if exists {
+		ExecuteExternalCommand(path, nil)
+	}
+
 	return nil
 }
 
