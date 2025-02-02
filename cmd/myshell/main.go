@@ -14,8 +14,8 @@ type Command struct {
 	Handler func(args []string) error
 }
 
-func exit(args []string) error {
-	if args[0] == "0" {
+func commandExit(args []string) error {
+	if args[1] == "0" {
 		os.Exit(0)
 	} else {
 		fmt.Println("Error: Exit with code " + args[1])
@@ -31,7 +31,7 @@ func main() {
 			Name: "exit",
 			Description: "exit is a shell builtin",
 			Usage: "exit [code]",
-			Handler: exit,
+			Handler: commandExit,
 		},
 
 	}
@@ -41,11 +41,11 @@ func main() {
 
 		// Wait for user input
 		rawInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
-		userInput := TrimNewLine(rawInput)
+		userInput := strings.Split(TrimNewLine(rawInput), " ")
 
-		isEcho := strings.HasPrefix(userInput, "echo")
+		isEcho := strings.HasPrefix(userInput[0], "echo")
 		if isEcho {
-			echoText := strings.TrimPrefix(userInput, "echo ")
+			echoText := strings.TrimPrefix(userInput[0], "echo ")
 			fmt.Println(echoText)
 			continue
 		}
@@ -56,15 +56,11 @@ func main() {
 		}
 
 		// Get Command
-		command, exists := commands[userInput]
-		if !exists {
-			fmt.Println(command.Name + ": command not found")
-		}
-
+		command, exists := commands[userInput[0]]
 		if exists {
-			fmt.Println(command.Name + ": to be executed")
+			command.Handler(userInput)
 		} else {
-			
+			fmt.Println(command.Name + ": command not found")
 		}
 	}
 
