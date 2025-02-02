@@ -74,7 +74,7 @@ func commandType(args []string) error {
 		fmt.Println(command.Description)
 
 	} else {
-		fmt.Println(describeCommand + ": command not found")
+		fmt.Println(describeCommand + ": not found")
 	}
 	return nil
 }
