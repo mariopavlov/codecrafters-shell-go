@@ -7,33 +7,33 @@ import (
 )
 
 type Command struct {
-	Name string
+	Name        string
 	Description string
-	Usage string
-	Handler func(args []string) error
+	Usage       string
+	Handler     func(args []string) error
 }
 
 var commands = make(map[string]Command)
 
 func registerCommands() {
-    commands["exit"] = Command{
-        Name:        "exit",
-        Description: "exit is a shell builtin",
-        Usage:       "exit [code]",
-        Handler:     commandExit,
-    }
-    commands["echo"] = Command{
-        Name:        "echo",
-        Description: "echo is a shell builtin",
-        Usage:       "echo [text to print out]",
-        Handler:     commandEcho,
-    }
-    commands["type"] = Command{
-        Name:        "type",
-        Description: "type is a shell builtin",
-        Usage:       "type [command]",
-        Handler:     commandType,
-    }
+	commands["exit"] = Command{
+		Name:        "exit",
+		Description: "exit is a shell builtin",
+		Usage:       "exit [code]",
+		Handler:     commandExit,
+	}
+	commands["echo"] = Command{
+		Name:        "echo",
+		Description: "echo is a shell builtin",
+		Usage:       "echo [text to print out]",
+		Handler:     commandEcho,
+	}
+	commands["type"] = Command{
+		Name:        "type",
+		Description: "type is a shell builtin",
+		Usage:       "type [command]",
+		Handler:     commandType,
+	}
 }
 
 func commandExit(args []string) error {
@@ -70,9 +70,13 @@ func commandType(args []string) error {
 
 	command, exists := commands[describeCommand]
 
+	commandPath, isInPath := SearchCommandPath(describeCommand)
+
 	if exists {
 		fmt.Println(command.Description)
 
+	} else if isInPath {
+		fmt.Printf("%v is %v\n", describeCommand, commandPath)
 	} else {
 		fmt.Println(describeCommand + ": not found")
 	}
@@ -87,4 +91,22 @@ func GetCommand(command string) (Command, bool) {
 
 func init() {
 	registerCommands()
+}
+
+func SearchCommandPath(command string) (string, bool) {
+	path := os.Getenv("PATH")
+	pathDirs := strings.Split(path, string(os.PathListSeparator))
+
+	for _, dir := range pathDirs {
+		cmdPath := dir + string(os.PathSeparator) + command
+
+		fileInfo, err := os.Stat(cmdPath)
+
+		if err == nil {
+			fmt.Println("File name: " + fileInfo.Name())
+			return cmdPath, true
+		}
+	}
+
+	return "", false
 }
