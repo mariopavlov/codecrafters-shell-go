@@ -27,7 +27,7 @@ func main() {
 		command, exists := GetCommand(userInput[0])
 		if exists {
 			command.Handler(userInput)
-		} else if commandPath, exists := SearchCommandPath(userCommand); exists {
+		} else if _, exists := SearchCommandPath(userCommand); exists {
 			ExecuteExternalCommand(userCommand, userInput[1:])
 		} else {
 			fmt.Println(userInput[0] + ": command not found")
