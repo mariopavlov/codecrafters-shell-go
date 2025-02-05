@@ -53,6 +53,13 @@ func commandDirectoryChange(args []string) error {
 		return nil
 	}
 
+	if args[1] == "~" {
+		// TODO Do we have case to fail? What is the case that can fail here?
+		homeDirectory, _ := os.UserHomeDir()
+
+		return os.Chdir(homeDirectory)
+	}
+
 	error := os.Chdir(args[1])
 
 	if error != nil {
