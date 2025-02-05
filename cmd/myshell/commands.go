@@ -58,7 +58,7 @@ func commandDirectoryChange(args []string) error {
 	if error == nil {
 		commandPwd(args)
 	} else {
-		fmt.Printf("cd: %v: No such file or directory", args[1])
+		fmt.Printf("cd: %v: No such file or directory\n", args[1])
 	}
 
 	return nil
