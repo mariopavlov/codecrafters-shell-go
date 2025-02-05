@@ -15,8 +15,6 @@ type Command struct {
 
 var commands = make(map[string]Command)
 
-var currentDir string
-
 func registerCommands() {
 	commands["exit"] = Command{
 		Name:        "exit",
@@ -55,17 +53,21 @@ func commandDirectoryChange(args []string) error {
 		return nil
 	}
 
-	if true {
+	error := os.Chdir(args[1])
+
+	if error == nil {
+		commandPwd(args)
+	} else {
 		fmt.Printf("cd: %v: No such file or directory", args[1])
 	}
 
 	return nil
-
 }
 
+// TODO This method does not need args, but need to satisfy the command handler interface
+// improve this code
 func commandPwd(args []string) error {
-	var error error
-	currentDir, error = os.Getwd()
+	currentDir, error := os.Getwd()
 
 	if error == nil {
 		fmt.Println(currentDir)
