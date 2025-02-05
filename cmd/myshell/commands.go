@@ -15,6 +15,8 @@ type Command struct {
 
 var commands = make(map[string]Command)
 
+var currentDir string
+
 func registerCommands() {
 	commands["exit"] = Command{
 		Name:        "exit",
@@ -40,10 +42,30 @@ func registerCommands() {
 		Usage:       "pwd [command]",
 		Handler:     commandPwd,
 	}
+	commands["cd"] = Command{
+		Name:        "cd",
+		Description: "Change current working directory",
+		Usage:       "cd [directory]",
+		Handler:     commandDirectoryChange,
+	}
+}
+
+func commandDirectoryChange(args []string) error {
+	if len(args) <= 1 {
+		return nil
+	}
+
+	if true {
+		fmt.Printf("cd: %v: No such file or directory", args[1])
+	}
+
+	return nil
+
 }
 
 func commandPwd(args []string) error {
-	currentDir, error := os.Getwd()
+	var error error
+	currentDir, error = os.Getwd()
 
 	if error == nil {
 		fmt.Println(currentDir)
