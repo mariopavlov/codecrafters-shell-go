@@ -83,8 +83,8 @@ func commandPwd(args []string) error {
 
 func commandExit(args []string) error {
 	if len(args) <= 1 {
-		fmt.Println("Error: Exit requires exit code ")
-		os.Exit(1)
+		// Use Default Exit of exit code is missing
+		os.Exit(0)
 	}
 
 	if args[1] == "0" {
