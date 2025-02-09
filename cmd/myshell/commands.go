@@ -98,19 +98,16 @@ func commandType(args []string) {
 		fmt.Println("Error: Type command requires command as a parameter")
 	}
 
-	describeCommand := args[1]
+	commandToDescribe := args[1]
 
-	command, exists := allCommands[describeCommand]
+	command := commands.NewTypeCommand(commandToDescribe)
 
-	commandPath, isInPath := SearchCommandPath(describeCommand)
+	internalCommand, exists := allCommands[commandToDescribe]
 
 	if exists {
-		fmt.Println(command.Description)
-
-	} else if isInPath {
-		fmt.Printf("%v is %v\n", describeCommand, commandPath)
+		fmt.Println(internalCommand.Description)
 	} else {
-		fmt.Println(describeCommand + ": not found")
+		command.Execute()
 	}
 }
 
@@ -122,21 +119,4 @@ func GetCommand(command string) (Command, bool) {
 
 func init() {
 	registerCommands()
-}
-
-func SearchCommandPath(command string) (string, bool) {
-	path := os.Getenv("PATH")
-	pathDirs := strings.Split(path, string(os.PathListSeparator))
-
-	for _, dir := range pathDirs {
-		cmdPath := dir + string(os.PathSeparator) + command
-
-		_, err := os.Stat(cmdPath)
-
-		if err == nil {
-			return cmdPath, true
-		}
-	}
-
-	return "", false
 }

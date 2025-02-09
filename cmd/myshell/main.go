@@ -17,7 +17,7 @@ func main() {
 		// Wait for user input
 		rawInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
 		userInput := strings.Split(TrimNewLine(rawInput), " ")
-		userCommand := userInput[0]
+		// userCommand := userInput[0]
 
 		if err != nil {
 			fmt.Println("Error reading input: " + err.Error())
@@ -27,11 +27,14 @@ func main() {
 		command, exists := GetCommand(userInput[0])
 		if exists {
 			command.Handler(userInput)
-		} else if _, exists := SearchCommandPath(userCommand); exists {
-			ExecuteExternalCommand(userCommand, userInput[1:])
-		} else {
-			fmt.Println(userInput[0] + ": command not found")
 		}
+
+		//TODO
+		// } else if _, exists := SearchCommandPath(userCommand); exists {
+		// 	ExecuteExternalCommand(userCommand, userInput[1:])
+		// } else {
+		// 	fmt.Println(userInput[0] + ": command not found")
+		// }
 	}
 }
 
