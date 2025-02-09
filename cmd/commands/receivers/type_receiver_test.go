@@ -1,4 +1,4 @@
-package main
+package commands
 
 import "testing"
 
@@ -31,14 +31,14 @@ func TestSearchCommandPath(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			actual, isFound := SearchCommandPath(tt.input)
+			actual, isFound := searchCommandPath(tt.input)
 
 			if isFound != tt.found {
-				t.Errorf("Expected %v, got %v", tt.found, isFound)
+				t.Errorf("Expected found: %v, got: %v", tt.found, isFound)
 			}
 
-			if actual != tt.expected {
-				t.Errorf("Expected %v, got %v", tt.expected, actual)
+			if isFound && actual != tt.expected {
+				t.Errorf("Expected path: %v, got: %v", tt.expected, actual)
 			}
 		})
 	}

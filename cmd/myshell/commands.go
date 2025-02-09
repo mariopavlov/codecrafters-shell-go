@@ -34,7 +34,7 @@ func registerCommands() {
 		Name:        "type",
 		Description: "type is a shell builtin",
 		Usage:       "type [command]",
-		Handler:     commandType,
+		Handler:     handleType,
 	}
 	allCommands["pwd"] = Command{
 		Name:        "pwd",
@@ -93,7 +93,7 @@ func handleEcho(args []string) {
 
 }
 
-func commandType(args []string) {
+func handleType(args []string) {
 	if len(args) <= 1 {
 		fmt.Println("Error: Type command requires command as a parameter")
 	}
