@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/codecrafters-io/shell-starter-go/cmd/commands/concrete"
 )
 
 type Command struct {
@@ -13,34 +15,34 @@ type Command struct {
 	Handler     func(args []string) error
 }
 
-var commands = make(map[string]Command)
+var allCommands = make(map[string]Command)
 
 func registerCommands() {
-	commands["exit"] = Command{
+	allCommands["exit"] = Command{
 		Name:        "exit",
 		Description: "exit is a shell builtin",
 		Usage:       "exit [code]",
 		Handler:     commandExit,
 	}
-	commands["echo"] = Command{
+	allCommands["echo"] = Command{
 		Name:        "echo",
 		Description: "echo is a shell builtin",
 		Usage:       "echo [text to print out]",
 		Handler:     commandEcho,
 	}
-	commands["type"] = Command{
+	allCommands["type"] = Command{
 		Name:        "type",
 		Description: "type is a shell builtin",
 		Usage:       "type [command]",
 		Handler:     commandType,
 	}
-	commands["pwd"] = Command{
+	allCommands["pwd"] = Command{
 		Name:        "pwd",
 		Description: "pwd is a shell builtin",
 		Usage:       "pwd [command]",
 		Handler:     commandPwd,
 	}
-	commands["cd"] = Command{
+	allCommands["cd"] = Command{
 		Name:        "cd",
 		Description: "Change current working directory",
 		Usage:       "cd [directory]",
@@ -98,9 +100,10 @@ func commandExit(args []string) error {
 }
 
 func commandEcho(args []string) error {
+	var message string = strings.Join(args[1:], " ")
 
-	echoText := strings.Join(args[1:], " ")
-	fmt.Println(echoText)
+	command := concrete.NewEchoCommand(message)
+	command.Execute()
 
 	return nil
 }
@@ -113,7 +116,7 @@ func commandType(args []string) error {
 
 	describeCommand := args[1]
 
-	command, exists := commands[describeCommand]
+	command, exists := allCommands[describeCommand]
 
 	commandPath, isInPath := SearchCommandPath(describeCommand)
 
@@ -129,7 +132,7 @@ func commandType(args []string) error {
 }
 
 func GetCommand(command string) (Command, bool) {
-	value, isExist := commands[command]
+	value, isExist := allCommands[command]
 
 	return value, isExist
 }
