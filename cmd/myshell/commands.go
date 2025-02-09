@@ -22,7 +22,7 @@ func registerCommands() {
 		Name:        "exit",
 		Description: "exit is a shell builtin",
 		Usage:       "exit [code]",
-		Handler:     commandExit,
+		Handler:     handleExit,
 	}
 	allCommands["echo"] = Command{
 		Name:        "echo",
@@ -80,18 +80,9 @@ func commandPwd(args []string) {
 
 }
 
-func commandExit(args []string) {
-	if len(args) <= 1 {
-		// Use Default Exit of exit code is missing
-		os.Exit(0)
-	}
-
-	if args[1] == "0" {
-		os.Exit(0)
-	} else {
-		fmt.Println("Error: Exit with code " + args[1])
-		os.Exit(1)
-	}
+func handleExit(args []string) {
+	command := commands.NewExitCommand()
+	command.Execute()
 }
 
 func handleEcho(args []string) {
