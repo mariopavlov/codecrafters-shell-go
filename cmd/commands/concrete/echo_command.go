@@ -11,9 +11,9 @@ func (ec EchoCommand) Execute() {
 	ec.receiver.PrintToConsole(ec.message)
 }
 
-func NewEchoCommand(message string) EchoCommand {
+func NewEchoCommand(echoMessage string) EchoCommand {
 	return EchoCommand{
-		message:  message,
+		message:  echoMessage,
 		receiver: commands.EchoReceiver{},
 	}
 }
