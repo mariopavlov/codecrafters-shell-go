@@ -12,7 +12,7 @@ type Command struct {
 	Name        string
 	Description string
 	Usage       string
-	Handler     func(args []string) error
+	Handler     func(args []string)
 }
 
 var allCommands = make(map[string]Command)
@@ -28,7 +28,7 @@ func registerCommands() {
 		Name:        "echo",
 		Description: "echo is a shell builtin",
 		Usage:       "echo [text to print out]",
-		Handler:     commandEcho,
+		Handler:     handleEcho,
 	}
 	allCommands["type"] = Command{
 		Name:        "type",
@@ -50,16 +50,15 @@ func registerCommands() {
 	}
 }
 
-func commandDirectoryChange(args []string) error {
+func commandDirectoryChange(args []string) {
 	if len(args) <= 1 {
-		return nil
+		return
 	}
 
 	if args[1] == "~" {
 		// TODO Do we have case to fail? What is the case that can fail here?
 		homeDirectory, _ := os.UserHomeDir()
-
-		return os.Chdir(homeDirectory)
+		os.Chdir(homeDirectory)
 	}
 
 	error := os.Chdir(args[1])
@@ -68,22 +67,20 @@ func commandDirectoryChange(args []string) error {
 		fmt.Printf("cd: %v: No such file or directory\n", args[1])
 	}
 
-	return nil
 }
 
 // TODO This method does not need args, but need to satisfy the command handler interface
 // improve this code
-func commandPwd(args []string) error {
+func commandPwd(args []string) {
 	currentDir, error := os.Getwd()
 
 	if error == nil {
 		fmt.Println(currentDir)
 	}
 
-	return nil
 }
 
-func commandExit(args []string) error {
+func commandExit(args []string) {
 	if len(args) <= 1 {
 		// Use Default Exit of exit code is missing
 		os.Exit(0)
@@ -95,23 +92,19 @@ func commandExit(args []string) error {
 		fmt.Println("Error: Exit with code " + args[1])
 		os.Exit(1)
 	}
-
-	return nil
 }
 
-func commandEcho(args []string) error {
+func handleEcho(args []string) {
 	var message string = strings.Join(args[1:], " ")
 
 	command := commands.NewEchoCommand(message)
 	command.Execute()
 
-	return nil
 }
 
-func commandType(args []string) error {
+func commandType(args []string) {
 	if len(args) <= 1 {
 		fmt.Println("Error: Type command requires command as a parameter")
-		return nil
 	}
 
 	describeCommand := args[1]
@@ -128,7 +121,6 @@ func commandType(args []string) error {
 	} else {
 		fmt.Println(describeCommand + ": not found")
 	}
-	return nil
 }
 
 func GetCommand(command string) (Command, bool) {
