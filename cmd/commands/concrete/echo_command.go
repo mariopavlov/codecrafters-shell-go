@@ -1,10 +1,10 @@
-package concrete
+package commands
 
-import "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
+import commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
 
 type EchoCommand struct {
 	message  string
-	receiver receivers.EchoReceiver
+	receiver commands.EchoReceiver
 }
 
 func (ec EchoCommand) Execute() {
@@ -14,6 +14,6 @@ func (ec EchoCommand) Execute() {
 func NewEchoCommand(message string) EchoCommand {
 	return EchoCommand{
 		message:  message,
-		receiver: receivers.EchoReceiver{},
+		receiver: commands.EchoReceiver{},
 	}
 }

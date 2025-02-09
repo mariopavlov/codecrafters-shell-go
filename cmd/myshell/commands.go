@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/codecrafters-io/shell-starter-go/cmd/commands/concrete"
+	commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/concrete"
 )
 
 type Command struct {
@@ -102,7 +102,7 @@ func commandExit(args []string) error {
 func commandEcho(args []string) error {
 	var message string = strings.Join(args[1:], " ")
 
-	command := concrete.NewEchoCommand(message)
+	command := commands.NewEchoCommand(message)
 	command.Execute()
 
 	return nil

@@ -1,4 +1,4 @@
-package receivers
+package commands
 
 import "fmt"
 
