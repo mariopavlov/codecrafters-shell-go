@@ -3,15 +3,15 @@ package commands
 import commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
 
 type PwdCommand struct {
-	receiver commands.DirectoryReceiver
+	receiver *commands.DirectoryReceiver
 }
 
 func (pc PwdCommand) Execute() {
 	pc.receiver.PrintWorkingDirectory()
 }
 
-func NewPwdCommand() PwdCommand {
+func NewPwdCommand(receiver *commands.DirectoryReceiver) PwdCommand {
 	return PwdCommand{
-		receiver: commands.DirectoryReceiver{},
+		receiver: receiver,
 	}
 }

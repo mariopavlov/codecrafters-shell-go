@@ -5,15 +5,15 @@ import (
 )
 
 type ExitCommand struct {
-	receiver commands.ExitReceiver
+	receiver *commands.ExitReceiver
 }
 
 func (ex ExitCommand) Execute() {
 	ex.receiver.DefaultExit()
 }
 
-func NewExitCommand() ExitCommand {
+func NewExitCommand(receiver *commands.ExitReceiver) ExitCommand {
 	return ExitCommand{
-		receiver: commands.ExitReceiver{},
+		receiver: receiver,
 	}
 }

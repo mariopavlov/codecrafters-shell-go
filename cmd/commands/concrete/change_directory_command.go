@@ -4,16 +4,16 @@ import commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/receiv
 
 type ChangeDirectoryCommand struct {
 	directory string
-	receiver  commands.DirectoryReceiver
+	receiver  *commands.DirectoryReceiver
 }
 
 func (cd ChangeDirectoryCommand) Execute() {
 	cd.receiver.ChangeDirectory(cd.directory)
 }
 
-func NewChangeDirectoryCommand(newDirectory string) ChangeDirectoryCommand {
+func NewChangeDirectoryCommand(newDirectory string, receiver *commands.DirectoryReceiver) ChangeDirectoryCommand {
 	return ChangeDirectoryCommand{
 		directory: newDirectory,
-		receiver:  commands.DirectoryReceiver{},
+		receiver:  receiver,
 	}
 }
