@@ -1,19 +1,32 @@
 package commands
 
-import commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
+import (
+	commands "github.com/codecrafters-io/shell-starter-go/cmd/commands"
+	receivers "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
+)
 
 type TypeCommand struct {
 	command  string
-	receiver *commands.TypeReceiver
+	receiver *receivers.TypeReceiver
+	metadata commands.CommandMetadata
 }
 
-func (tc TypeCommand) Execute() {
+func (tc *TypeCommand) Execute() {
 	tc.receiver.DescribeCommandOnPath(tc.command)
 }
 
-func NewTypeCommand(commandToFind string, receiver *commands.TypeReceiver) TypeCommand {
-	return TypeCommand{
+func (tc *TypeCommand) GetMetadata() commands.CommandMetadata {
+	return tc.metadata
+}
+
+func NewTypeCommand(commandToFind string, receiver *receivers.TypeReceiver) *TypeCommand {
+	return &TypeCommand{
 		command:  commandToFind,
 		receiver: receiver,
+		metadata: commands.NewCommandMetadata(
+			"type",
+			"type is a shell builtin",
+			"type [command]",
+		),
 	}
 }
