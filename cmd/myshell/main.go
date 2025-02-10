@@ -8,10 +8,15 @@ import (
 	"os/exec"
 	"strings"
 
+	commands "github.com/codecrafters-io/shell-starter-go/cmd/commands"
+	concreteCommands "github.com/codecrafters-io/shell-starter-go/cmd/commands/concrete"
+	receivers "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
 	"github.com/codecrafters-io/shell-starter-go/cmd/utils"
 )
 
 func main() {
+	registry := commands.NewCommandsRegistry()
+	registerCommands(registry)
 
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -26,15 +31,30 @@ func main() {
 			os.Exit(1)
 		}
 
-		command, exists := GetCommand(userInput[0])
+		command, exists := registry.CreateCommand(userCommand, userInput[1:])
+
 		if exists {
-			command.Handler(userInput)
+			command.Execute()
 		} else if _, exists := utils.SearchCommandPath(userCommand); exists {
 			ExecuteExternalCommand(userCommand, userInput[1:])
 		} else {
 			fmt.Println(userInput[0] + ": command not found")
 		}
 	}
+}
+
+func registerCommands(registry *commands.CommandsRegistry) {
+	registry.Register("type", func(args []string) commands.Command {
+		if len(args) < 1 {
+			return nil
+		}
+
+		return concreteCommands.NewTypeCommand(args[0], receivers.NewTypeReceiver(registry))
+	})
+
+	registry.Register("echo", func(args []string) commands.Command {
+		return concreteCommands.NewEchoCommand(args[0], receivers.NewEchoReceiver())
+	})
 }
 
 func ExecuteExternalCommand(externalCommand string, args []string) {
