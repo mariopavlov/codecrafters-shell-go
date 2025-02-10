@@ -8,6 +8,6 @@ func NewInvoker() Invoker {
 	return Invoker{}
 }
 
-func (i Invoker) ExecuteCommand(command Command) {
+func (i *Invoker) ExecuteCommand(command Command) {
 	command.Execute()
 }
