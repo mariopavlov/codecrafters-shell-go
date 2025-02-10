@@ -40,7 +40,7 @@ func registerCommands() {
 		Name:        "pwd",
 		Description: "pwd is a shell builtin",
 		Usage:       "pwd [command]",
-		Handler:     commandPwd,
+		Handler:     handlePwd,
 	}
 	allCommands["cd"] = Command{
 		Name:        "cd",
@@ -69,15 +69,9 @@ func commandDirectoryChange(args []string) {
 
 }
 
-// TODO This method does not need args, but need to satisfy the command handler interface
-// improve this code
-func commandPwd(args []string) {
-	currentDir, error := os.Getwd()
-
-	if error == nil {
-		fmt.Println(currentDir)
-	}
-
+func handlePwd(args []string) {
+	command := commands.NewPwdCommand()
+	command.Execute()
 }
 
 func handleExit(args []string) {
