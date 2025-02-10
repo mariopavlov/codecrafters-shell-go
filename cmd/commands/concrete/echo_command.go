@@ -19,8 +19,8 @@ func (ec *EchoCommand) Metadata() commands.CommandMetadata {
 	return ec.metadata
 }
 
-func NewEchoCommand(echoMessage string, receiver *receivers.EchoReceiver) EchoCommand {
-	return EchoCommand{
+func NewEchoCommand(echoMessage string, receiver *receivers.EchoReceiver) *EchoCommand {
+	return &EchoCommand{
 		message:  echoMessage,
 		receiver: receiver,
 		metadata: commands.NewCommandMetadata(
