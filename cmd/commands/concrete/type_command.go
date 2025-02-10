@@ -15,7 +15,7 @@ func (tc *TypeCommand) Execute() {
 	tc.receiver.DescribeCommandOnPath(tc.command)
 }
 
-func (tc *TypeCommand) GetMetadata() commands.CommandMetadata {
+func (tc *TypeCommand) Metadata() commands.CommandMetadata {
 	return tc.metadata
 }
 
