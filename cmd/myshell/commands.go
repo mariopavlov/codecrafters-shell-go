@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/concrete"
@@ -46,27 +45,19 @@ func registerCommands() {
 		Name:        "cd",
 		Description: "Change current working directory",
 		Usage:       "cd [directory]",
-		Handler:     commandDirectoryChange,
+		Handler:     handleChangeDirectory,
 	}
 }
 
-func commandDirectoryChange(args []string) {
+func handleChangeDirectory(args []string) {
 	if len(args) <= 1 {
 		return
 	}
 
-	if args[1] == "~" {
-		// TODO Do we have case to fail? What is the case that can fail here?
-		homeDirectory, _ := os.UserHomeDir()
-		os.Chdir(homeDirectory)
-	}
+	directory := args[1]
 
-	error := os.Chdir(args[1])
-
-	if error != nil {
-		fmt.Printf("cd: %v: No such file or directory\n", args[1])
-	}
-
+	command := commands.NewChangeDirectoryCommand(directory)
+	command.Execute()
 }
 
 func handlePwd(args []string) {

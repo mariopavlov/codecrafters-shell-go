@@ -3,7 +3,7 @@ package commands
 import commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
 
 type PwdCommand struct {
-	receiver commands.PwdReceiver
+	receiver commands.DirectoryReceiver
 }
 
 func (pc PwdCommand) Execute() {
@@ -12,6 +12,6 @@ func (pc PwdCommand) Execute() {
 
 func NewPwdCommand() PwdCommand {
 	return PwdCommand{
-		receiver: commands.PwdReceiver{},
+		receiver: commands.DirectoryReceiver{},
 	}
 }
