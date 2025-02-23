@@ -6,24 +6,24 @@ import (
 )
 
 type TypeCommand struct {
-	command  string
-	receiver *receivers.TypeReceiver
-	metadata commands.CommandMetadata
+	describeCommand *commands.CommandMetadata
+	receiver        *receivers.TypeReceiver
+	metadata        commands.CommandMetadata
 }
 
 func (tc *TypeCommand) Execute() {
 	// TODO Fix, it should get metadata from the command
-	tc.receiver.DescribeCommand(tc.metadata)
+	tc.receiver.DescribeCommand(*tc.describeCommand)
 }
 
 func (tc *TypeCommand) Metadata() commands.CommandMetadata {
 	return tc.metadata
 }
 
-func NewTypeCommand(commandToFind string, receiver *receivers.TypeReceiver) *TypeCommand {
+func NewTypeCommand(command *commands.CommandMetadata, receiver *receivers.TypeReceiver) *TypeCommand {
 	return &TypeCommand{
-		command:  commandToFind,
-		receiver: receiver,
+		describeCommand: command,
+		receiver:        receiver,
 		metadata: commands.NewCommandMetadata(
 			"type",
 			"type is a shell builtin",
