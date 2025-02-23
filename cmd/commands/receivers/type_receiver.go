@@ -18,6 +18,7 @@ func NewTypeReceiver(registry *commands.CommandsRegistry) *TypeReceiver {
 }
 
 func (tr TypeReceiver) DescribeCommandOnPath(command string) {
+	fmt.Println("Internal Type codmmand")
 	if builtin, exists := tr.registry.CreateCommand(command, []string{}); exists {
 		fmt.Println(builtin.Metadata().Description)
 		return

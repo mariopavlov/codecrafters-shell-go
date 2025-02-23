@@ -8,6 +8,10 @@ import (
 type DirectoryReceiver struct {
 }
 
+func NewDirectoryReceiver() *DirectoryReceiver {
+	return &DirectoryReceiver{}
+}
+
 func (dr DirectoryReceiver) PrintWorkingDirectory() {
 	currentDirectory, error := os.Getwd()
 
