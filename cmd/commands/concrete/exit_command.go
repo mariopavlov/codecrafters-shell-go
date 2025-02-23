@@ -18,8 +18,8 @@ func (ex *ExitCommand) Metadata() commands.CommandMetadata {
 	return ex.metadata
 }
 
-func NewExitCommand(receiver *receivers.ExitReceiver) ExitCommand {
-	return ExitCommand{
+func NewExitCommand(receiver *receivers.ExitReceiver) *ExitCommand {
+	return &ExitCommand{
 		receiver: receiver,
 		metadata: commands.NewCommandMetadata(
 			"exit",

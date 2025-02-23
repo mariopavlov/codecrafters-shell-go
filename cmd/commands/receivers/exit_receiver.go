@@ -5,7 +5,7 @@ import "os"
 type ExitReceiver struct {
 }
 
-func NewExitReceiver(exitCode int) *ExitReceiver {
+func NewExitReceiver() *ExitReceiver {
 	return &ExitReceiver{}
 }
 
