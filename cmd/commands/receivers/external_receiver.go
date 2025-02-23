@@ -13,18 +13,18 @@ func NewExternalReceiver() *ExternalReceiver {
 	return &ExternalReceiver{}
 }
 
-func ExecuteExternalCommand(command string, params []string) {
-	if ExternalCommandExists(command) {
+func (er ExternalReceiver) ExecuteExternalCommand(command string, params []string) {
+	if _, exists := utils.SearchCommandPath(command); exists {
 		utils.ExecuteExternalCommand(command, params)
 	} else {
 		fmt.Println(command + ": command not found")
 	}
 }
 
-func ExternalCommandExists(command string) bool {
-	if _, exists := utils.SearchCommandPath(command); exists {
-		return true
+func (er ExternalReceiver) ExternalCommandExists(command string) (string, bool) {
+	if path, exists := utils.SearchCommandPath(command); exists {
+		return path, true
 	}
 
-	return false
+	return "", false
 }
