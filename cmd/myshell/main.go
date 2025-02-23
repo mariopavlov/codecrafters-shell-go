@@ -12,7 +12,6 @@ import (
 )
 
 func main() {
-
 	// Get to Basics
 	// Transfer here all commands
 	// Invoker
@@ -20,10 +19,6 @@ func main() {
 
 	// All Receivers
 	// directoryReceiver := receivers.NewDirectoryReceiver()
-	echoReceiver := receivers.NewEchoReceiver()
-	exitReceiver := receivers.NewExitReceiver()
-	typeReceiver := receivers.NewTypeReceiver()
-	directoryReceiver := receivers.NewDirectoryReceiver()
 
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -38,31 +33,8 @@ func main() {
 			os.Exit(1)
 		}
 
-		switch userCommand {
-		case "echo":
-			// Build Echo
-			echoCommand := commands.NewEchoCommand(strings.Join(userInput[1:], " "), echoReceiver)
-			invoker.ExecuteCommand(echoCommand)
-		case "exit":
-			// Build Exit
-			exitCommand := commands.NewExitCommand(exitReceiver)
-			invoker.ExecuteCommand(exitCommand)
-		case "type":
-			// Build Type
-			// describe := retrieveMetadata(userInput[1])
-			typeCommand := commands.NewTypeCommand(userInput[1], typeReceiver)
-			invoker.ExecuteCommand(typeCommand)
-		case "pwd":
-			// Build PWD
-			pwdCommand := commands.NewPwdCommand(directoryReceiver)
-			invoker.ExecuteCommand(pwdCommand)
-		case "cd":
-			changeDirectoryCommand := commands.NewChangeDirectoryCommand(userInput[1], directoryReceiver)
-			invoker.ExecuteCommand(changeDirectoryCommand)
-
-		default:
-
-		}
+		command := getCommand(userCommand, userInput[1:])
+		invoker.ExecuteCommand(command)
 	}
 }
 
@@ -73,8 +45,32 @@ func main() {
 // 	}
 // }
 
-func buildCommand(command string) {
+func getCommand(command string, params []string) commandUtils.Command {
+	echoReceiver := receivers.NewEchoReceiver()
+	exitReceiver := receivers.NewExitReceiver()
+	typeReceiver := receivers.NewTypeReceiver()
+	directoryReceiver := receivers.NewDirectoryReceiver()
+	externalReceiver := receivers.NewExternalReceiver()
 
+	switch command {
+	case "echo":
+		// Build Echo
+		return commands.NewEchoCommand(strings.Join(params, " "), echoReceiver)
+	case "exit":
+		// Build Exit
+		return commands.NewExitCommand(exitReceiver)
+	case "type":
+		// Build Type
+		commandMetadata := getCommand(params[0], params).Metadata()
+		return commands.NewTypeCommand(&commandMetadata, typeReceiver)
+	case "pwd":
+		// Build PWD
+		return commands.NewPwdCommand(directoryReceiver)
+	case "cd":
+		return commands.NewChangeDirectoryCommand(params[0], directoryReceiver)
+	default:
+		return commands.NewExternalCommand(command, params, externalReceiver)
+	}
 }
 
 func TrimNewLine(prompt string) string {
