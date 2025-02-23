@@ -25,14 +25,7 @@ func (er ExternalReceiver) ExternalCommandExists(command string) (string, bool) 
 }
 
 func (er ExternalReceiver) ExecuteExternalCommand(externalCommand string, args []string) {
-	var command *exec.Cmd
-
-	if len(args) >= 1 {
-		command = exec.Command(externalCommand, args...)
-	} else {
-		command = exec.Command(externalCommand, args...)
-
-	}
+	command := exec.Command(externalCommand, args...)
 
 	var outBuffer bytes.Buffer
 	command.Stdout = &outBuffer
@@ -41,7 +34,7 @@ func (er ExternalReceiver) ExecuteExternalCommand(externalCommand string, args [
 	command.Stderr = os.Stderr
 
 	if err := command.Run(); err != nil {
-		fmt.Println("Error executing command:", err)
+		fmt.Printf("%v: command not found\n", externalCommand)
 	}
 
 	fmt.Print(outBuffer.String())
