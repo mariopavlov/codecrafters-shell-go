@@ -29,7 +29,7 @@ func (ec *ExternalCommand) Metadata() commands.CommandMetadata {
 	if path, exists := ec.receiver.ExternalCommandExists(ec.command); exists {
 		commandIs = fmt.Sprintf("%v is %v", ec.command, path)
 	} else {
-		commandIs = fmt.Sprintf("%v: does not exist", ec.command)
+		commandIs = fmt.Sprintf("%v: not found", ec.command)
 	}
 
 	return commands.NewCommandMetadata(
