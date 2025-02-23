@@ -15,8 +15,12 @@ func (cd ChangeDirectoryCommand) Execute() {
 	cd.receiver.ChangeDirectory(cd.directory)
 }
 
-func NewChangeDirectoryCommand(newDirectory string, receiver *receivers.DirectoryReceiver) ChangeDirectoryCommand {
-	return ChangeDirectoryCommand{
+func (cd ChangeDirectoryCommand) Metadata() commands.CommandMetadata {
+	return cd.metadata
+}
+
+func NewChangeDirectoryCommand(newDirectory string, receiver *receivers.DirectoryReceiver) *ChangeDirectoryCommand {
+	return &ChangeDirectoryCommand{
 		directory: newDirectory,
 		receiver:  receiver,
 		metadata: commands.NewCommandMetadata(

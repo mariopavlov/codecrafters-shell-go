@@ -57,6 +57,9 @@ func main() {
 			// Build PWD
 			pwdCommand := commands.NewPwdCommand(directoryReceiver)
 			invoker.ExecuteCommand(pwdCommand)
+		case "cd":
+			changeDirectoryCommand := commands.NewChangeDirectoryCommand(userInput[1], directoryReceiver)
+			invoker.ExecuteCommand(changeDirectoryCommand)
 
 		default:
 			if _, exists := utils.SearchCommandPath(userCommand); exists {
