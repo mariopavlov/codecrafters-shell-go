@@ -24,6 +24,7 @@ func main() {
 	echoReceiver := receivers.NewEchoReceiver()
 	exitReceiver := receivers.NewExitReceiver()
 	typeReceiver := receivers.NewTypeReceiver()
+	directoryReceiver := receivers.NewDirectoryReceiver()
 
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -49,12 +50,13 @@ func main() {
 			invoker.ExecuteCommand(exitCommand)
 		case "type":
 			// Build Type
-			fmt.Println("Builtin Echo")
+			// describe := retrieveMetadata(userInput[1])
 			typeCommand := commands.NewTypeCommand(userInput[1], typeReceiver)
 			invoker.ExecuteCommand(typeCommand)
 		case "pwd":
 			// Build PWD
-			fmt.Println("Builtin Echo")
+			pwdCommand := commands.NewPwdCommand(directoryReceiver)
+			invoker.ExecuteCommand(pwdCommand)
 
 		default:
 			if _, exists := utils.SearchCommandPath(userCommand); exists {
@@ -66,6 +68,13 @@ func main() {
 		}
 	}
 }
+
+// func retrieveMetadata(commandName string) commandUtils.CommandMetadata {
+// 	switch commandName {
+// 	case "echo":
+// 		return Echo
+// 	}
+// }
 
 func TrimNewLine(prompt string) string {
 	return strings.TrimRight(prompt, "\r\n")

@@ -18,8 +18,8 @@ func (pc *PwdCommand) Metadata() commands.CommandMetadata {
 	return pc.metadata
 }
 
-func NewPwdCommand(receiver *receivers.DirectoryReceiver) PwdCommand {
-	return PwdCommand{
+func NewPwdCommand(receiver *receivers.DirectoryReceiver) *PwdCommand {
+	return &PwdCommand{
 		receiver: receiver,
 		metadata: commands.NewCommandMetadata(
 			"pwd",
