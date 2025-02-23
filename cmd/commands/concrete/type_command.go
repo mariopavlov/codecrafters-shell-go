@@ -16,6 +16,14 @@ func (tc *TypeCommand) Execute() {
 	tc.receiver.DescribeCommand(*tc.describeCommand)
 }
 
+func GetTypeMetadata() commands.CommandMetadata {
+	return commands.NewCommandMetadata(
+		"type",
+		"type is a shell builtin",
+		"type [command]",
+	)
+}
+
 func (tc *TypeCommand) Metadata() commands.CommandMetadata {
 	return tc.metadata
 }

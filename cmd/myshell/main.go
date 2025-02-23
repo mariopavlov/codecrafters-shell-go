@@ -64,7 +64,13 @@ func getCommand(command string, params []string) commandUtils.Command {
 		return commands.NewExitCommand(exitReceiver)
 	case "type":
 		// Build Type
-		commandMetadata := getCommand(params[0], params).Metadata()
+		var commandMetadata commandUtils.CommandMetadata
+		if params[0] == "type" {
+			commandMetadata = commands.GetTypeMetadata()
+		} else {
+			commandMetadata = getCommand(params[0], params).Metadata()
+		}
+
 		return commands.NewTypeCommand(&commandMetadata, typeReceiver)
 	case "pwd":
 		// Build PWD
