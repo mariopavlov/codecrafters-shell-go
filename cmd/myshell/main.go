@@ -23,7 +23,7 @@ func main() {
 	// directoryReceiver := receivers.NewDirectoryReceiver()
 	echoReceiver := receivers.NewEchoReceiver()
 	exitReceiver := receivers.NewExitReceiver()
-	// typeReceiver := receivers.NewTypeReceiver()
+	typeReceiver := receivers.NewTypeReceiver()
 
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -41,20 +41,21 @@ func main() {
 		switch userCommand {
 		case "echo":
 			// Build Echo
-			fmt.Println("Builtin Echo")
 			echoCommand := commands.NewEchoCommand(strings.Join(userInput[1:], " "), echoReceiver)
 			invoker.ExecuteCommand(echoCommand)
 		case "exit":
 			// Build Exit
-			fmt.Println("Builtin Exit")
 			exitCommand := commands.NewExitCommand(exitReceiver)
 			invoker.ExecuteCommand(exitCommand)
 		case "type":
 			// Build Type
 			fmt.Println("Builtin Echo")
+			typeCommand := commands.NewTypeCommand(userInput[1], typeReceiver)
+			invoker.ExecuteCommand(typeCommand)
 		case "pwd":
 			// Build PWD
 			fmt.Println("Builtin Echo")
+
 		default:
 			if _, exists := utils.SearchCommandPath(userCommand); exists {
 				utils.ExecuteExternalCommand(userCommand, userInput[1:])

@@ -12,7 +12,7 @@ type TypeCommand struct {
 }
 
 func (tc *TypeCommand) Execute() {
-	tc.receiver.DescribeCommandOnPath(tc.command)
+	tc.receiver.DescribeCommand(tc.command)
 }
 
 func (tc *TypeCommand) Metadata() commands.CommandMetadata {
