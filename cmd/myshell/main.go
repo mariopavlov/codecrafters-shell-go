@@ -25,15 +25,17 @@ func main() {
 
 		// Wait for user input
 		rawInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
-		userInput := strings.Split(TrimNewLine(rawInput), " ")
-		userCommand := userInput[0]
+		//userInput := strings.Split(TrimNewLine(rawInput), " ")
+
+		params := getParameters(rawInput)
+		userCommand := params[0]
 
 		if err != nil {
 			fmt.Println("Error reading input: " + err.Error())
 			os.Exit(1)
 		}
 
-		command := getCommand(userCommand, userInput[1:])
+		command := getCommand(userCommand, params[1:])
 		invoker.ExecuteCommand(command)
 	}
 }
@@ -71,6 +73,36 @@ func getCommand(command string, params []string) commandUtils.Command {
 	default:
 		return commands.NewExternalCommand(command, params, externalReceiver)
 	}
+}
+
+// ' ' should group params together
+func getParameters(userInput string) (params []string) {
+	var current string
+	inQuotes := false
+
+	for _, char := range userInput {
+		switch char {
+		case '\'':
+			inQuotes = !inQuotes
+		case ' ':
+			if !inQuotes {
+				if current != "" {
+					params = append(params, current)
+					current = ""
+				}
+			} else {
+				current += string(char)
+			}
+		default:
+			current += string(char)
+		}
+	}
+
+	if current != "" {
+		params = append(params, current)
+	}
+
+	return params
 }
 
 func TrimNewLine(prompt string) string {
