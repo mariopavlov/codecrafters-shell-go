@@ -9,7 +9,6 @@ import (
 	commands "github.com/codecrafters-io/shell-starter-go/cmd/commands"
 	concreteCommands "github.com/codecrafters-io/shell-starter-go/cmd/commands/concrete"
 	receivers "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
-	"github.com/codecrafters-io/shell-starter-go/cmd/utils"
 )
 
 func main() {
@@ -18,10 +17,10 @@ func main() {
 	// Transfer here all commands
 
 	// All Receivers
-	directoryReceiver := receivers.NewDirectoryReceiver()
-	echoReceiver := receivers.NewEchoReceiver()
-	exitReceiver := receivers.NewExitReceiver()
-	typeReceiver := receivers.NewTypeReceiver()
+	// directoryReceiver := receivers.NewDirectoryReceiver()
+	// echoReceiver := receivers.NewEchoReceiver()
+	// exitReceiver := receivers.NewExitReceiver()
+	// typeReceiver := receivers.NewTypeReceiver()
 
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -38,19 +37,29 @@ func main() {
 
 		switch userCommand {
 		case "echo":
-			// Echo
+			// Build Echo
+			fmt.Println("Builtin Echo")
+		case "exit":
+			// Build Exit
+			fmt.Println("Builtin Echo")
+		case "type":
+			// Build Type
+			fmt.Println("Builtin Echo")
+		case "pwd":
+			// Build PWD
+			fmt.Println("Builtin Echo")
 
 		}
 
-		command, exists := registry.CreateCommand(userCommand, userInput[1:])
+		// command, exists := registry.CreateCommand(userCommand, userInput[1:])
 
-		if exists {
-			command.Execute()
-		} else if _, exists := utils.SearchCommandPath(userCommand); exists {
-			ExecuteExternalCommand(userCommand, userInput[1:])
-		} else {
-			fmt.Println(userInput[0] + ": command not found")
-		}
+		// if exists {
+		// 	command.Execute()
+		// } else if _, exists := utils.SearchCommandPath(userCommand); exists {
+		// 	ExecuteExternalCommand(userCommand, userInput[1:])
+		// } else {
+		// 	fmt.Println(userInput[0] + ": command not found")
+		// }
 	}
 }
 

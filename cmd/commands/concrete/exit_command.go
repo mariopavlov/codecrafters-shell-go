@@ -11,7 +11,7 @@ type ExitCommand struct {
 }
 
 func (ex *ExitCommand) Execute() {
-	ex.receiver.DefaultExit()
+	ex.receiver.Exit(0)
 }
 
 func (ex *ExitCommand) Metadata() commands.CommandMetadata {
