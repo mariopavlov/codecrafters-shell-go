@@ -25,9 +25,10 @@ func main() {
 
 		// Wait for user input
 		rawInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+		trimmedInput := TrimNewLine((rawInput))
 		//userInput := strings.Split(TrimNewLine(rawInput), " ")
 
-		params := getParameters(rawInput)
+		params := getParameters(trimmedInput)
 		userCommand := params[0]
 
 		if err != nil {
