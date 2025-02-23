@@ -9,7 +9,6 @@ import (
 	commandUtils "github.com/codecrafters-io/shell-starter-go/cmd/commands"
 	commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/concrete"
 	receivers "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
-	"github.com/codecrafters-io/shell-starter-go/cmd/utils"
 )
 
 func main() {
@@ -62,11 +61,6 @@ func main() {
 			invoker.ExecuteCommand(changeDirectoryCommand)
 
 		default:
-			if _, exists := utils.SearchCommandPath(userCommand); exists {
-				utils.ExecuteExternalCommand(userCommand, userInput[1:])
-			} else {
-				fmt.Println(userInput[0] + ": command not found")
-			}
 
 		}
 	}
@@ -78,6 +72,10 @@ func main() {
 // 		return Echo
 // 	}
 // }
+
+func buildCommand(command string) {
+
+}
 
 func TrimNewLine(prompt string) string {
 	return strings.TrimRight(prompt, "\r\n")
