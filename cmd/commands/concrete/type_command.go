@@ -12,7 +12,8 @@ type TypeCommand struct {
 }
 
 func (tc *TypeCommand) Execute() {
-	tc.receiver.DescribeCommand(tc.command)
+	// TODO Fix, it should get metadata from the command
+	tc.receiver.DescribeCommand(tc.metadata)
 }
 
 func (tc *TypeCommand) Metadata() commands.CommandMetadata {

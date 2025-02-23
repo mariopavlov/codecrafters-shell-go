@@ -3,6 +3,7 @@ package commands
 import (
 	"fmt"
 
+	"github.com/codecrafters-io/shell-starter-go/cmd/commands"
 	"github.com/codecrafters-io/shell-starter-go/cmd/utils"
 )
 
@@ -13,12 +14,13 @@ func NewTypeReceiver() *TypeReceiver {
 	return &TypeReceiver{}
 }
 
-func (tr TypeReceiver) DescribeCommand(command string) {
-	commandPath, exists := utils.SearchCommandPath(command)
+func (tr TypeReceiver) DescribeCommand(metadata commands.CommandMetadata) {
+
+	commandPath, exists := utils.SearchCommandPath(metadata.Name)
 
 	if exists {
-		fmt.Printf("%v is %v\n", command, commandPath)
+		fmt.Printf("%v is %v\n", metadata.Name, commandPath)
 	} else {
-		fmt.Println(command + ": not found")
+		fmt.Println(metadata.Name + ": not found")
 	}
 }
