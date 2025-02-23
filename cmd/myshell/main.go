@@ -21,7 +21,7 @@ func main() {
 
 	// All Receivers
 	// directoryReceiver := receivers.NewDirectoryReceiver()
-	// echoReceiver := receivers.NewEchoReceiver()
+	echoReceiver := receivers.NewEchoReceiver()
 	exitReceiver := receivers.NewExitReceiver()
 	// typeReceiver := receivers.NewTypeReceiver()
 
@@ -42,6 +42,8 @@ func main() {
 		case "echo":
 			// Build Echo
 			fmt.Println("Builtin Echo")
+			echoCommand := commands.NewEchoCommand(strings.Join(userInput[1:], " "), echoReceiver)
+			invoker.ExecuteCommand(echoCommand)
 		case "exit":
 			// Build Exit
 			fmt.Println("Builtin Exit")
