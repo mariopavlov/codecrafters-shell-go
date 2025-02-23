@@ -2,10 +2,8 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
 	"os"
-	"os/exec"
 	"strings"
 
 	commands "github.com/codecrafters-io/shell-starter-go/cmd/commands"
@@ -15,8 +13,15 @@ import (
 )
 
 func main() {
-	registry := commands.NewCommandsRegistry()
-	registerCommands(registry)
+
+	// Get to Basics
+	// Transfer here all commands
+
+	// All Receivers
+	directoryReceiver := receivers.NewDirectoryReceiver()
+	echoReceiver := receivers.NewEchoReceiver()
+	exitReceiver := receivers.NewExitReceiver()
+	typeReceiver := receivers.NewTypeReceiver()
 
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -29,6 +34,12 @@ func main() {
 		if err != nil {
 			fmt.Println("Error reading input: " + err.Error())
 			os.Exit(1)
+		}
+
+		switch userCommand {
+		case "echo":
+			// Echo
+
 		}
 
 		command, exists := registry.CreateCommand(userCommand, userInput[1:])
@@ -55,29 +66,6 @@ func registerCommands(registry *commands.CommandsRegistry) {
 	registry.Register("echo", func(args []string) commands.Command {
 		return concreteCommands.NewEchoCommand(args[0], receivers.NewEchoReceiver())
 	})
-}
-
-func ExecuteExternalCommand(externalCommand string, args []string) {
-	var command *exec.Cmd
-
-	if len(args) >= 1 {
-		command = exec.Command(externalCommand, args...)
-	} else {
-		command = exec.Command(externalCommand, args...)
-
-	}
-
-	var outBuffer bytes.Buffer
-	command.Stdout = &outBuffer
-	command.Stdout = os.Stdout
-	command.Stdin = os.Stdin
-	command.Stderr = os.Stderr
-
-	if err := command.Run(); err != nil {
-		fmt.Println("Error executing command:", err)
-	}
-
-	fmt.Print(outBuffer.String())
 }
 
 func TrimNewLine(prompt string) string {
