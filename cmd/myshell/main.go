@@ -85,14 +85,22 @@ func getCommand(command string, params []string) commandUtils.Command {
 // ' ' should group params together
 func getParameters(userInput string) (params []string) {
 	var current string
-	inQuotes := false
+	inSingleQuotes := false
+	inDoubleQuotes := false
 
 	for _, char := range userInput {
 		switch char {
 		case '\'':
-			inQuotes = !inQuotes
+			if !inDoubleQuotes {
+				inSingleQuotes = !inSingleQuotes
+			}
+		case '"':
+			if !inSingleQuotes {
+				inDoubleQuotes = !inDoubleQuotes
+			}
+
 		case ' ':
-			if !inQuotes {
+			if !inSingleQuotes {
 				if current != "" {
 					params = append(params, current)
 					current = ""
