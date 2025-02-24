@@ -101,7 +101,7 @@ func getParameters(userInput string) (params []string) {
 			}
 
 		case ' ':
-			if !inSingleQuotes || !inDoubleQuotes {
+			if !inSingleQuotes && !inDoubleQuotes {
 				if current != "" {
 					params = append(params, current)
 					current = ""
