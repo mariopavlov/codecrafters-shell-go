@@ -95,12 +95,13 @@ func getParameters(userInput string) (params []string) {
 				inSingleQuotes = !inSingleQuotes
 			}
 		case '"':
+			fmt.Println("Double Quotes")
 			if !inSingleQuotes {
 				inDoubleQuotes = !inDoubleQuotes
 			}
 
 		case ' ':
-			if !inSingleQuotes {
+			if !inSingleQuotes || !inDoubleQuotes {
 				if current != "" {
 					params = append(params, current)
 					current = ""
