@@ -63,7 +63,7 @@ func TestGetParameters(t *testing.T) {
 		{
 			name:     "Trim Space",
 			input:    "world  example testscript",
-			expected: []string{"world example testscript"},
+			expected: []string{"world", "example", "testscript"},
 		},
 	}
 

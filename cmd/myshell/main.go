@@ -99,7 +99,10 @@ func getParameters(userInput string) (params []string) {
 				current += string(userInput[i])
 			}
 		case ' ':
-			params = append(params, current)
+			if current != "" {
+				params = append(params, current)
+			}
+
 			current = ""
 		default:
 			current += string(userInput[i])
