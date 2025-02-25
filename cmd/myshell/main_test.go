@@ -55,6 +55,11 @@ func TestGetParameters(t *testing.T) {
 			input:    "echo 'hello \" world'",
 			expected: []string{"echo", "hello \" world"},
 		},
+		{
+			name:     "Test Single Quotes in Double Quotes",
+			input:    "echo \"hello ' world\"",
+			expected: []string{"echo", "hello ' world"},
+		},
 	}
 
 	for _, tt := range tests {
