@@ -60,6 +60,11 @@ func TestGetParameters(t *testing.T) {
 			input:    "echo \"hello ' world\"",
 			expected: []string{"echo", "hello ' world"},
 		},
+		{
+			name:     "Trim Space",
+			input:    "world  example testscript",
+			expected: []string{"world example testscript"},
+		},
 	}
 
 	for _, tt := range tests {
