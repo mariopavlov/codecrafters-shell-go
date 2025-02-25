@@ -94,7 +94,16 @@ func getParameters(userInput string) (params []string) {
 			for i++; i < len(userInput) && userInput[i] != '\''; i++ {
 				current += string(userInput[i])
 			}
+		case ' ':
+			params = append(params, current)
+			current = ""
+		default:
+			current += string(userInput[i])
 		}
+	}
+
+	if current != "" {
+		params = append(params, current)
 	}
 
 	// for index, char := range userInput {
@@ -123,10 +132,6 @@ func getParameters(userInput string) (params []string) {
 	// 		current += string(char)
 	// 	}
 	// }
-
-	if current != "" {
-		params = append(params, current)
-	}
 
 	return params
 }
