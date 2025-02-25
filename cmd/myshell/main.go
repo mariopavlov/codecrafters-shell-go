@@ -94,6 +94,10 @@ func getParameters(userInput string) (params []string) {
 			for i++; i < len(userInput) && userInput[i] != '\''; i++ {
 				current += string(userInput[i])
 			}
+		case '"':
+			for i++; i < len(userInput) && userInput[i] != '"'; i++ {
+				current += string(userInput[i])
+			}
 		case ' ':
 			params = append(params, current)
 			current = ""
