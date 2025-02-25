@@ -110,33 +110,6 @@ func getParameters(userInput string) (params []string) {
 		params = append(params, current)
 	}
 
-	// for index, char := range userInput {
-	// 	switch char {
-	// 	case '\'':
-	// 		for index++; i < len(userInput) && userInput[i] != "\'" {
-	// 			current += string(userInput[index])
-
-	// 		}
-	// 	case '"':
-	// 		fmt.Println("Double Quotes")
-	// 		if !inSingleQuotes {
-	// 			inDoubleQuotes = !inDoubleQuotes
-	// 		}
-
-	// 	case ' ':
-	// 		if !inSingleQuotes && !inDoubleQuotes {
-	// 			if current != "" {
-	// 				params = append(params, current)
-	// 				current = ""
-	// 			}
-	// 		} else {
-	// 			current += string(char)
-	// 		}
-	// 	default:
-	// 		current += string(char)
-	// 	}
-	// }
-
 	return params
 }
 
