@@ -85,34 +85,44 @@ func getCommand(command string, params []string) commandUtils.Command {
 // ' ' should group params together
 func getParameters(userInput string) (params []string) {
 	var current string
-	inSingleQuotes := false
-	inDoubleQuotes := false
 
-	for _, char := range userInput {
+	for i := 0; i < len(userInput); i++ {
+		char := rune(userInput[i])
+
 		switch char {
 		case '\'':
-			if !inDoubleQuotes {
-				inSingleQuotes = !inSingleQuotes
+			for i++; i < len(userInput) && userInput[i] != '\''; i++ {
+				current += string(userInput[i])
 			}
-		case '"':
-			fmt.Println("Double Quotes")
-			if !inSingleQuotes {
-				inDoubleQuotes = !inDoubleQuotes
-			}
-
-		case ' ':
-			if !inSingleQuotes && !inDoubleQuotes {
-				if current != "" {
-					params = append(params, current)
-					current = ""
-				}
-			} else {
-				current += string(char)
-			}
-		default:
-			current += string(char)
 		}
 	}
+
+	// for index, char := range userInput {
+	// 	switch char {
+	// 	case '\'':
+	// 		for index++; i < len(userInput) && userInput[i] != "\'" {
+	// 			current += string(userInput[index])
+
+	// 		}
+	// 	case '"':
+	// 		fmt.Println("Double Quotes")
+	// 		if !inSingleQuotes {
+	// 			inDoubleQuotes = !inDoubleQuotes
+	// 		}
+
+	// 	case ' ':
+	// 		if !inSingleQuotes && !inDoubleQuotes {
+	// 			if current != "" {
+	// 				params = append(params, current)
+	// 				current = ""
+	// 			}
+	// 		} else {
+	// 			current += string(char)
+	// 		}
+	// 	default:
+	// 		current += string(char)
+	// 	}
+	// }
 
 	if current != "" {
 		params = append(params, current)
