@@ -65,6 +65,11 @@ func TestGetParameters(t *testing.T) {
 			input:    "world  example testscript",
 			expected: []string{"world", "example", "testscript"},
 		},
+		{
+			name:     "Test Multiple escaped words",
+			input:    "\"world  example\"  \"test\"\"script",
+			expected: []string{"world  example", "testscript"},
+		},
 	}
 
 	for _, tt := range tests {
