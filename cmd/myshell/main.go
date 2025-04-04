@@ -26,7 +26,7 @@ func main() {
 		// Wait for user input
 		rawInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
 		trimmedInput := TrimNewLine((rawInput))
-		//userInput := strings.Split(TrimNewLine(rawInput), " ")
+		// userInput := strings.Split(TrimNewLine(rawInput), " ")
 
 		params := getParameters(trimmedInput)
 		userCommand := params[0]
@@ -104,6 +104,12 @@ func getParameters(userInput string) (params []string) {
 			}
 
 			current = ""
+		case '\\':
+			// In this case we should escape the next character
+			for i++; i < len(userInput) && userInput[i] != '\\'; i++ {
+				current += string(userInput[i])
+			}
+			fmt.Println("Escape Character Found: \\")
 		default:
 			current += string(userInput[i])
 		}
