@@ -106,7 +106,8 @@ func getParameters(userInput string) (params []string) {
 			current = ""
 		case '\\':
 			// In this case we should escape the next character
-			for i++; i < len(userInput) && userInput[i] != '\\'; i++ {
+			if i+1 < len(userInput) {
+				i++
 				current += string(userInput[i])
 			}
 		default:
