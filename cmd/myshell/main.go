@@ -109,7 +109,6 @@ func getParameters(userInput string) (params []string) {
 			for i++; i < len(userInput) && userInput[i] != '\\'; i++ {
 				current += string(userInput[i])
 			}
-			fmt.Println("Escape Character Found: \\")
 		default:
 			current += string(userInput[i])
 		}
