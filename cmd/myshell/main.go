@@ -9,6 +9,7 @@ import (
 	commandUtils "github.com/codecrafters-io/shell-starter-go/cmd/commands"
 	commands "github.com/codecrafters-io/shell-starter-go/cmd/commands/concrete"
 	receivers "github.com/codecrafters-io/shell-starter-go/cmd/commands/receivers"
+	"github.com/codecrafters-io/shell-starter-go/cmd/utils"
 )
 
 func main() {
@@ -28,7 +29,7 @@ func main() {
 		trimmedInput := TrimNewLine((rawInput))
 		// userInput := strings.Split(TrimNewLine(rawInput), " ")
 
-		params := getParameters(trimmedInput)
+		params := utils.ParseArguments(trimmedInput)
 		userCommand := params[0]
 
 		if err != nil {
@@ -73,53 +74,6 @@ func getCommand(command string, params []string) commandUtils.Command {
 	default:
 		return commands.NewExternalCommand(command, params, externalReceiver)
 	}
-}
-
-const (
-	SINGLE_QUOTE = '\''
-	DOUBLE_QUOTE = '"'
-	EMPTY_SPACE  = ' '
-	BACKSLASH    = '\\'
-)
-
-// ' ' should group params together
-func getParameters(userInput string) (params []string) {
-	var current string
-
-	for i := 0; i < len(userInput); i++ {
-		char := rune(userInput[i])
-
-		switch char {
-		case SINGLE_QUOTE:
-			for i++; i < len(userInput) && userInput[i] != '\''; i++ {
-				current += string(userInput[i])
-			}
-		case DOUBLE_QUOTE:
-			for i++; i < len(userInput) && userInput[i] != '"'; i++ {
-				current += string(userInput[i])
-			}
-		case EMPTY_SPACE:
-			if current != "" {
-				params = append(params, current)
-			}
-
-			current = ""
-		case BACKSLASH:
-			// In this case we should escape the next character
-			if i+1 < len(userInput) {
-				i++
-				current += string(userInput[i])
-			}
-		default:
-			current += string(userInput[i])
-		}
-	}
-
-	if current != "" {
-		params = append(params, current)
-	}
-
-	return params
 }
 
 func TrimNewLine(prompt string) string {
