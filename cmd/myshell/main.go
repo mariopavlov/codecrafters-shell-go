@@ -41,13 +41,6 @@ func main() {
 	}
 }
 
-// func retrieveMetadata(commandName string) commandUtils.CommandMetadata {
-// 	switch commandName {
-// 	case "echo":
-// 		return Echo
-// 	}
-// }
-
 func getCommand(command string, params []string) commandUtils.Command {
 	echoReceiver := receivers.NewEchoReceiver()
 	exitReceiver := receivers.NewExitReceiver()
@@ -82,6 +75,13 @@ func getCommand(command string, params []string) commandUtils.Command {
 	}
 }
 
+const (
+	SINGLE_QUOTE = '\''
+	DOUBLE_QUOTE = '"'
+	EMPTY_SPACE  = ' '
+	BACKSLASH    = '\\'
+)
+
 // ' ' should group params together
 func getParameters(userInput string) (params []string) {
 	var current string
@@ -90,21 +90,21 @@ func getParameters(userInput string) (params []string) {
 		char := rune(userInput[i])
 
 		switch char {
-		case '\'':
+		case SINGLE_QUOTE:
 			for i++; i < len(userInput) && userInput[i] != '\''; i++ {
 				current += string(userInput[i])
 			}
-		case '"':
+		case DOUBLE_QUOTE:
 			for i++; i < len(userInput) && userInput[i] != '"'; i++ {
 				current += string(userInput[i])
 			}
-		case ' ':
+		case EMPTY_SPACE:
 			if current != "" {
 				params = append(params, current)
 			}
 
 			current = ""
-		case '\\':
+		case BACKSLASH:
 			// In this case we should escape the next character
 			if i+1 < len(userInput) {
 				i++
