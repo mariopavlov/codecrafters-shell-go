@@ -1,11 +1,22 @@
 package utils
 
+import "fmt"
+
 const (
 	SingleQuote = '\''
 	DoubleQuote = '"'
 	EmptySpace  = ' '
 	Backslash   = '\\'
+	Dollar      = '$'
+	Newline     = '\n'
 )
+
+func isSpecialEscape(c byte) bool {
+	return c == Newline || c == Dollar || c == DoubleQuote || c == Backslash
+}
+
+// Backslash enclosed in double quotes "\" preservers
+// the special handling if followed by \, $, " or newline
 
 func ParseArguments(userInput string) (params []string) {
 	var current string
@@ -20,6 +31,15 @@ func ParseArguments(userInput string) (params []string) {
 			}
 		case DoubleQuote:
 			for i++; i < len(userInput) && userInput[i] != '"'; i++ {
+				if userInput[i] == Backslash {
+					if len(userInput) > i+1 && isSpecialEscape(userInput[i]) {
+						fmt.Println("character to escape: ", string(userInput[i+1]))
+						i++
+					} else {
+						fmt.Println("Error: malformed input")
+					}
+				}
+
 				current += string(userInput[i])
 			}
 		case EmptySpace:
