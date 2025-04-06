@@ -1,7 +1,5 @@
 package utils
 
-import "fmt"
-
 const (
 	SingleQuote = '\''
 	DoubleQuote = '"'
@@ -32,10 +30,8 @@ func ParseArguments(userInput string) (params []string) {
 		case DoubleQuote:
 			for i++; i < len(userInput) && userInput[i] != '"'; i++ {
 				if userInput[i] == Backslash {
-					if len(userInput) > i+1 && isSpecialEscape(userInput[i]) {
+					if len(userInput) > i+1 && isSpecialEscape(userInput[i+1]) {
 						i++
-					} else {
-						fmt.Println("Error: malformed input")
 					}
 				}
 
