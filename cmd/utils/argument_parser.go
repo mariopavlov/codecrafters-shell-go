@@ -33,7 +33,6 @@ func ParseArguments(userInput string) (params []string) {
 			for i++; i < len(userInput) && userInput[i] != '"'; i++ {
 				if userInput[i] == Backslash {
 					if len(userInput) > i+1 && isSpecialEscape(userInput[i]) {
-						fmt.Println("character to escape: ", string(userInput[i+1]))
 						i++
 					} else {
 						fmt.Println("Error: malformed input")
