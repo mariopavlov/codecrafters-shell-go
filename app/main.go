@@ -31,6 +31,8 @@ func readCommand(reader *bufio.Reader) string {
 
 func executeCommand(command string) {
 	switch command {
+	case "exit":
+		os.Exit(0)
 	case "cd":
 	default:
 		fmt.Printf("%s: command not found\n", command)
