@@ -14,27 +14,30 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		command := readCommand(reader)
-		executeCommand(command)
+		command, args := readCommand(reader)
+		executeCommand(command, args)
 	}
 }
 
-func readCommand(reader *bufio.Reader) string {
+func readCommand(reader *bufio.Reader) (string, []string) {
 	fmt.Print("$ ")
-	command, err := reader.ReadString('\n')
+	input, err := reader.ReadString('\n')
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
 	}
 
-	return strings.TrimSpace(command)
+	input = strings.TrimSpace(input)
+	commands := strings.Split(input, " ")
+
+	return commands[0], commands[1:]
 }
 
-func executeCommand(command string) {
+func executeCommand(command string, args []string) {
 	switch command {
 	case "exit":
 		os.Exit(0)
 	case "echo":
-		fmt.Println("Echo command")
+		fmt.Println(strings.Join(args, " "))
 	default:
 		fmt.Printf("%s: command not found\n", command)
 	}
