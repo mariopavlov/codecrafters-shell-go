@@ -33,7 +33,8 @@ func executeCommand(command string) {
 	switch command {
 	case "exit":
 		os.Exit(0)
-	case "cd":
+	case "echo":
+		fmt.Println("Echo command")
 	default:
 		fmt.Printf("%s: command not found\n", command)
 	}
