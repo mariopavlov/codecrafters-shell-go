@@ -7,19 +7,72 @@ import (
 	"strings"
 )
 
-// Ensures gofmt doesn't remove the "fmt" import in stage 1 (feel free to remove this!)
-var _ = fmt.Print
+type Command struct {
+	name    string
+	details string
+}
+
+type RegisteredCommands struct {
+	commands map[string]*Command
+}
+
+func (rc *RegisteredCommands) registerCommand(command string, description string) {
+	// Known limitation I'm not checking if command exists already
+	rc.commands[command] = &Command{
+		name:    command,
+		details: description,
+	}
+}
+
+func (rc *RegisteredCommands) getCommand(command string) (*Command, error) {
+	cmd, ok := rc.commands[command]
+
+	if !ok {
+		return nil, fmt.Errorf("%s: not found", command)
+	}
+
+	return cmd, nil
+}
+
+type Shell struct {
+	rc *RegisteredCommands
+}
+
+func NewShell() *Shell {
+	builtInCommands := &RegisteredCommands{
+		commands: make(map[string]*Command),
+	}
+	builtInCommands.registerCommand("echo", "prints string back")
+	builtInCommands.registerCommand("type", "prints whether a command is built-in")
+	builtInCommands.registerCommand("exit", "exits eval and closes the shell")
+
+	return &Shell{
+		rc: builtInCommands,
+	}
+}
+
+func (s *Shell) typeCommand(command string) {
+	cmd, err := s.rc.getCommand(command)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("%s is a shell builtin\n", cmd.name)
+}
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
 
+	shell := NewShell()
+
 	for {
-		command, args := readCommand(reader)
-		executeCommand(command, args)
+		command, args := readInput(reader)
+		executeCommand(shell, command, args)
 	}
 }
 
-func readCommand(reader *bufio.Reader) (string, []string) {
+func readInput(reader *bufio.Reader) (string, []string) {
 	fmt.Print("$ ")
 	input, err := reader.ReadString('\n')
 	if err != nil {
@@ -32,12 +85,14 @@ func readCommand(reader *bufio.Reader) (string, []string) {
 	return commands[0], commands[1:]
 }
 
-func executeCommand(command string, args []string) {
+func executeCommand(shell *Shell, command string, args []string) {
 	switch command {
 	case "exit":
 		os.Exit(0)
 	case "echo":
 		fmt.Println(strings.Join(args, " "))
+	case "type":
+		shell.typeCommand(args[0])
 	default:
 		fmt.Printf("%s: command not found\n", command)
 	}
