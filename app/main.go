@@ -11,15 +11,17 @@ import (
 var _ = fmt.Print
 
 func main() {
+	reader := bufio.NewReader(os.Stdin)
+
 	for {
-		command := readCommand()
+		command := readCommand(reader)
 		executeCommand(command)
 	}
 }
 
-func readCommand() string {
+func readCommand(reader *bufio.Reader) string {
 	fmt.Print("$ ")
-	command, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	command, err := reader.ReadString('\n')
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
 	}
