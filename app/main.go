@@ -11,12 +11,9 @@ import (
 var _ = fmt.Print
 
 func main() {
-	command := readCommand()
-
-	switch command {
-	case "cd":
-	default:
-		fmt.Printf("%s: command not found\n", command)
+	for {
+		command := readCommand()
+		executeCommand(command)
 	}
 }
 
@@ -28,4 +25,12 @@ func readCommand() string {
 	}
 
 	return strings.TrimSpace(command)
+}
+
+func executeCommand(command string) {
+	switch command {
+	case "cd":
+	default:
+		fmt.Printf("%s: command not found\n", command)
+	}
 }
