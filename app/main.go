@@ -107,14 +107,21 @@ func executeCommand(shell *Shell, command string, args []string) {
 
 func tryExecuteCommand(command string, args []string) {
 	_, err := isCommand(command)
+
 	if err == nil {
-		result, err := exec.Command(command, args...).Output()
-		if err == nil {
-			fmt.Print(string(result))
+		cmd := exec.Command(command, args...)
+
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+
+		err := cmd.Run()
+
+		if err != nil {
+			fmt.Println(err)
 			return
 		}
 
-		fmt.Println(err)
+		return
 	}
 
 	fmt.Println(err)
