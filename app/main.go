@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -53,12 +54,18 @@ func NewShell() *Shell {
 
 func (s *Shell) typeCommand(command string) {
 	cmd, err := s.rc.getCommand(command)
-	if err != nil {
-		fmt.Println(err)
+	if err == nil {
+		fmt.Printf("%s is a shell builtin\n", cmd.name)
 		return
 	}
 
-	fmt.Printf("%s is a shell builtin\n", cmd.name)
+	fullPath, err := exec.LookPath(command)
+	if err == nil {
+		fmt.Printf("%s is %s\n", command, fullPath)
+		return
+	}
+
+	fmt.Printf("%s: not found\n", command)
 }
 
 func main() {
