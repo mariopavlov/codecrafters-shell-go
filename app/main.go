@@ -46,6 +46,7 @@ func NewShell() *Shell {
 	builtInCommands.registerCommand("echo", "prints string back")
 	builtInCommands.registerCommand("type", "prints whether a command is built-in")
 	builtInCommands.registerCommand("exit", "exits eval and closes the shell")
+	builtInCommands.registerCommand("pwd", "prints current working directory")
 
 	return &Shell{
 		rc: builtInCommands,
@@ -66,6 +67,14 @@ func (s *Shell) typeCommand(command string) {
 	}
 
 	fmt.Printf("%s: not found\n", command)
+}
+
+func (s *Shell) pwdCommand() {
+
+	curDir, err := os.Getwd()
+	if err == nil {
+		fmt.Println(curDir)
+	}
 }
 
 func main() {
@@ -100,6 +109,8 @@ func executeCommand(shell *Shell, command string, args []string) {
 		fmt.Println(strings.Join(args, " "))
 	case "type":
 		shell.typeCommand(args[0])
+	case "pwd":
+		shell.pwdCommand()
 	default:
 		tryExecuteCommand(command, args)
 	}
