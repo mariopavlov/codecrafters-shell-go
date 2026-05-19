@@ -101,6 +101,30 @@ func executeCommand(shell *Shell, command string, args []string) {
 	case "type":
 		shell.typeCommand(args[0])
 	default:
-		fmt.Printf("%s: command not found\n", command)
+		tryExecuteCommand(command, args)
 	}
+}
+
+func tryExecuteCommand(command string, args []string) {
+	_, err := isCommand(command)
+	if err == nil {
+		result, err := exec.Command(command, args...).Output()
+		if err == nil {
+			fmt.Print(string(result))
+			return
+		}
+
+		fmt.Println(err)
+	}
+
+	fmt.Println(err)
+}
+
+func isCommand(command string) (string, error) {
+	fullPath, err := exec.LookPath(command)
+	if err == nil {
+		return fullPath, nil
+	}
+
+	return "", fmt.Errorf("%s: command not found", command)
 }
